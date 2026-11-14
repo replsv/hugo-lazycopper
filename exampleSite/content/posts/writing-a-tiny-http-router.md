@@ -5,35 +5,30 @@ description: "Building a minimal router on top of net/http to understand what fr
 tags: ['go', 'http']
 ---
 
-Every codebase reaches a point where the same helper gets written three times with three different types. This post walks through a small, real example and shows where the language features pay off, and where they just add noise.
+Frameworks hide a lot of routing logic. Writing a small router yourself is a good way to see how little of it you actually need.
 
-## The problem
+## Matching paths
 
-Suppose we need a function that returns the keys of a map in sorted order. Without type parameters you end up writing one version per key type, or reaching for reflection.
+Since Go 1.22, the standard `ServeMux` understands methods and wildcards, which covers most cases:
 
 ```go
-func SortedKeys[K cmp.Ordered, V any](m map[K]V) []K {
-	keys := make([]K, 0, len(m))
-	for k := range m {
-		keys = append(keys, k)
-	}
-	slices.Sort(keys)
-	return keys
+mux := http.NewServeMux()
+mux.HandleFunc("GET /users/{id}", getUser)
+mux.HandleFunc("POST /users", createUser)
+```
+
+## Middleware
+
+Middleware is just a function that wraps a handler:
+
+```go
+func logging(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		next.ServeHTTP(w, r)
+		log.Printf("%s %s %s", r.Method, r.URL.Path, time.Since(start))
+	})
 }
 ```
 
-The constraint `cmp.Ordered` tells the compiler that `K` supports `<`, which is all `slices.Sort` needs.
-
-## When not to use them
-
-> If an interface already describes the behaviour you need, prefer the interface.
-
-Generics shine for containers and algorithms. For behaviour, interfaces are usually clearer:
-
-1. Start with concrete types.
-2. Extract an interface when a second implementation appears.
-3. Reach for type parameters when the *shape* of the code repeats, not the behaviour.
-
-## Wrapping up
-
-Keep the constraint as small as possible and let the call sites read naturally. A good test: if callers need to spell out type arguments, the API probably needs another look.
+Chain a few of these and you have most of what a framework router gives you.

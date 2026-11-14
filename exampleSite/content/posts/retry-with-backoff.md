@@ -5,35 +5,25 @@ description: "Why naive retries make outages worse, and a small helper that gets
 tags: ['distributed-systems', 'reliability']
 ---
 
-Every codebase reaches a point where the same helper gets written three times with three different types. This post walks through a small, real example and shows where the language features pay off, and where they just add noise.
+When a dependency is struggling, every client retrying immediately turns a blip into an outage. Backoff spreads the load out; jitter stops clients from retrying in lockstep.
 
-## The problem
+## The helper
 
-Suppose we need a function that returns the keys of a map in sorted order. Without type parameters you end up writing one version per key type, or reaching for reflection.
+```python
+import random, time
 
-```go
-func SortedKeys[K cmp.Ordered, V any](m map[K]V) []K {
-	keys := make([]K, 0, len(m))
-	for k := range m {
-		keys = append(keys, k)
-	}
-	slices.Sort(keys)
-	return keys
-}
+def retry(fn, attempts=5, base=0.1, cap=5.0):
+    for attempt in range(attempts):
+        try:
+            return fn()
+        except TransientError:
+            if attempt == attempts - 1:
+                raise
+            time.sleep(random.uniform(0, min(cap, base * 2 ** attempt)))
 ```
 
-The constraint `cmp.Ordered` tells the compiler that `K` supports `<`, which is all `slices.Sort` needs.
+## Rules of thumb
 
-## When not to use them
-
-> If an interface already describes the behaviour you need, prefer the interface.
-
-Generics shine for containers and algorithms. For behaviour, interfaces are usually clearer:
-
-1. Start with concrete types.
-2. Extract an interface when a second implementation appears.
-3. Reach for type parameters when the *shape* of the code repeats, not the behaviour.
-
-## Wrapping up
-
-Keep the constraint as small as possible and let the call sites read naturally. A good test: if callers need to spell out type arguments, the API probably needs another look.
+- Only retry errors that can succeed on a second try.
+- Cap both the delay and the number of attempts.
+- Make the operation idempotent before you retry it.

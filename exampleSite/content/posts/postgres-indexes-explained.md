@@ -5,35 +5,24 @@ description: "B-tree, GIN, BRIN and partial indexes, and how to pick the right o
 tags: ['postgres', 'databases']
 ---
 
-Every codebase reaches a point where the same helper gets written three times with three different types. This post walks through a small, real example and shows where the language features pay off, and where they just add noise.
+An index is a trade: faster reads in exchange for slower writes and more disk. Picking the right kind matters more than adding more of them.
 
-## The problem
+## B-tree
 
-Suppose we need a function that returns the keys of a map in sorted order. Without type parameters you end up writing one version per key type, or reaching for reflection.
+The default, and the right answer most of the time. It handles equality and range queries on anything sortable.
 
-```go
-func SortedKeys[K cmp.Ordered, V any](m map[K]V) []K {
-	keys := make([]K, 0, len(m))
-	for k := range m {
-		keys = append(keys, k)
-	}
-	slices.Sort(keys)
-	return keys
-}
+```sql
+CREATE INDEX orders_created_at_idx ON orders (created_at);
 ```
 
-The constraint `cmp.Ordered` tells the compiler that `K` supports `<`, which is all `slices.Sort` needs.
+## GIN
 
-## When not to use them
+Built for values that contain many keys, such as `jsonb` documents, arrays and full-text search vectors.
 
-> If an interface already describes the behaviour you need, prefer the interface.
+## BRIN
 
-Generics shine for containers and algorithms. For behaviour, interfaces are usually clearer:
+Tiny indexes for huge, naturally ordered tables like append-only event logs. They store min/max values per block range instead of every row.
 
-1. Start with concrete types.
-2. Extract an interface when a second implementation appears.
-3. Reach for type parameters when the *shape* of the code repeats, not the behaviour.
+## Partial indexes
 
-## Wrapping up
-
-Keep the constraint as small as possible and let the call sites read naturally. A good test: if callers need to spell out type arguments, the API probably needs another look.
+Index only the rows you query. An index on `WHERE status = 'pending'` stays small even when the table grows forever.
