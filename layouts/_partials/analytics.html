@@ -1,0 +1,24 @@
+{{- if hugo.IsProduction }}
+  {{- $privacy := site.Config.Privacy.GoogleAnalytics }}
+  {{- with site.Config.Services.GoogleAnalytics.ID }}
+    {{- if $privacy.Disable }}
+    {{- else if hasPrefix . "G-" }}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
+<script>
+  {{- if $privacy.RespectDoNotTrack }}
+  var dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+  if (!(dnt === "1" || dnt === "yes")) {
+  {{- else }}
+  {
+  {{- end }}
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag("js", new Date());
+    gtag("config", {{ . }});
+  }
+</script>
+    {{- else }}
+      {{- warnf "lazycopper: Google Analytics ID %q is not a GA4 measurement ID (G-...). Universal Analytics (UA-...) no longer collects data, so no tracking code was rendered." . }}
+    {{- end }}
+  {{- end }}
+{{- end }}

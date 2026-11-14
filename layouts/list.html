@@ -1,0 +1,15 @@
+{{- define "main" }}
+<header class="mb-10">
+  {{- partial "breadcrumbs.html" . }}
+  <h1 class="text-3xl font-semibold tracking-tight text-teal-800 dark:text-stone-100">
+    {{- if eq .Kind "term" }}<span class="text-copper-600 dark:text-copper-300">#</span>{{ end }}{{ .Title -}}
+  </h1>
+  {{- with .Description }}<p class="justified mt-3 text-stone-600 dark:text-stone-300">{{ . | markdownify }}</p>{{ end }}
+</header>
+{{- with .Content }}<div class="content mb-10">{{ . }}</div>{{ end }}
+{{- $paginator := .Paginate .RegularPages }}
+<div class="space-y-4">
+  {{- range $paginator.Pages }}{{ partial "post_card.html" . }}{{ end }}
+</div>
+{{- partial "pagination.html" $paginator }}
+{{- end }}

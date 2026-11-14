@@ -1,0 +1,5 @@
+{{- $p := site.Params.assets }}
+<link rel="icon" href="{{ (or $p.favicon "favicon.ico") | absURL }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ (or $p.favicon16x16 "favicon-16x16.png") | absURL }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ (or $p.favicon32x32 "favicon-32x32.png") | absURL }}">
+<link rel="apple-touch-icon" href="{{ (or $p.apple_touch_icon "apple-touch-icon.png") | absURL }}">

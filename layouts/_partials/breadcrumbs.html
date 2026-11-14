@@ -1,0 +1,10 @@
+{{- if and site.Params.ShowBreadCrumbs (not .Params.disableBreadcrumbs) }}
+<nav class="mb-4 text-sm text-stone-500 dark:text-stone-400" aria-label="{{ i18n "breadcrumbs" | default "Breadcrumbs" }}">
+  <ol class="flex flex-wrap items-center gap-1.5">
+    {{- range $i, $p := .Ancestors.Reverse }}
+    {{- if $i }}<li aria-hidden="true" class="text-stone-300 dark:text-teal-700">/</li>{{ end }}
+    <li><a href="{{ $p.RelPermalink }}" class="hover:text-copper-600 dark:hover:text-copper-300">{{ if $p.IsHome }}{{ i18n "home" | default "Home" }}{{ else }}{{ $p.Title }}{{ end }}</a></li>
+    {{- end }}
+  </ol>
+</nav>
+{{- end }}

@@ -1,0 +1,29 @@
+{{- $title := cond .IsHome site.Title (printf "%s | %s" (.Title | plainify) site.Title) }}
+{{- $description := "" }}
+{{- if .IsHome }}
+  {{- $description = site.Params.description }}
+{{- else }}
+  {{- $description = or .Description (.Summary | plainify | truncate 160) site.Params.description }}
+{{- end }}
+{{- $keywords := or .Keywords .Params.tags site.Params.keywords }}
+{{- $author := or .Params.author site.Params.author }}
+{{- $indexable := and hugo.IsProduction (eq (site.Params.env | default "") "production") (not .Params.robotsNoIndex) }}
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $description | plainify | htmlUnescape }}">
+{{- with $keywords }}
+<meta name="keywords" content="{{ delimit . ", " }}">
+{{- end }}
+{{- with $author }}
+<meta name="author" content="{{ if reflect.IsSlice . }}{{ delimit . ", " }}{{ else }}{{ . }}{{ end }}">
+{{- end }}
+<meta name="robots" content="{{ if $indexable }}index, follow{{ else }}noindex, nofollow{{ end }}">
+<link rel="canonical" href="{{ or .Params.canonicalURL .Permalink }}">
+{{- with site.Params.analytics.google.SiteVerificationTag }}
+<meta name="google-site-verification" content="{{ . }}">
+{{- end }}
+{{- with site.Params.analytics.bing.SiteVerificationTag }}
+<meta name="msvalidate.01" content="{{ . }}">
+{{- end }}
+{{- template "_internal/opengraph.html" . }}
+{{- template "_internal/twitter_cards.html" . }}
+{{- partial "schema.html" . }}

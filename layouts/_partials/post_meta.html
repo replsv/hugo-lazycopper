@@ -1,0 +1,13 @@
+{{- $parts := slice }}
+{{- if not .Date.IsZero }}
+  {{- $parts = $parts | append (printf `<time datetime="%s">%s</time>` (.Date.Format "2006-01-02T15:04:05Z07:00") (.Date | time.Format (site.Params.DateFormat | default ":date_long"))) }}
+{{- end }}
+{{- if site.Params.ShowReadingTime }}
+  {{- $parts = $parts | append (i18n "read_time" .ReadingTime | default (printf "%d min read" .ReadingTime)) }}
+{{- end }}
+{{- if ne site.Params.ShowAuthor false }}
+  {{- with or .Params.author site.Params.author }}
+    {{- $parts = $parts | append (cond (reflect.IsSlice .) (delimit . ", ") .) }}
+  {{- end }}
+{{- end }}
+{{- delimit $parts "&nbsp;&middot;&nbsp;" | safeHTML -}}

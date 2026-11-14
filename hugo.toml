@@ -1,0 +1,17 @@
+[params]
+  defaultTheme = "auto"
+  ShowBreadCrumbs = true
+  ShowPostNavLinks = true
+  ShowCodeCopyButtons = true
+  ShowReadingTime = false
+  ShowToc = false
+  TocOpen = false
+  DateFormat = ":date_long"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = "0.146.0"

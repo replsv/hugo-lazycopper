@@ -1,0 +1,9 @@
+{{- $label := site.Params.label.text | default site.Title }}
+{{- $initials := site.Params.label.monogram | default "" }}
+{{- if not $initials }}
+  {{- range first 2 (split $label " ") }}{{ $initials = printf "%s%s" $initials (substr . 0 1) }}{{ end }}
+{{- end -}}
+<span aria-hidden="true"
+      class="grid size-8 shrink-0 place-items-center rounded-lg bg-teal-800 font-mono text-xs font-semibold tracking-wider text-copper-200 ring-1 ring-inset ring-copper-400/40 transition-colors group-hover:bg-teal-700 dark:bg-accent/10 dark:text-accent dark:ring-accent/40 dark:group-hover:bg-accent/20">
+  {{- $initials | upper -}}
+</span>

@@ -1,0 +1,177 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@source "hugo_stats.json";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  --color-copper-50: #fbf5f1;
+  --color-copper-100: #f6e7dd;
+  --color-copper-200: #ecccb6;
+  --color-copper-300: #dcaa89;
+  --color-copper-400: #d6794d;
+  --color-copper-500: #c96535;
+  --color-copper-600: #c35627;
+  --color-copper-700: #9f4420;
+  --color-copper-800: #7f371d;
+  --color-copper-900: #5f2a17;
+
+  --color-teal-50: #f0f6f7;
+  --color-teal-100: #d9e8ea;
+  --color-teal-200: #b3d0d4;
+  --color-teal-300: #84b0b6;
+  --color-teal-400: #5f969e;
+  --color-teal-500: #4c848d;
+  --color-teal-600: #3e6d75;
+  --color-teal-700: #30525c;
+  --color-teal-800: #23404a;
+  --color-teal-900: #182e36;
+  --color-teal-950: #0f1f25;
+
+  --color-stone-50: #faf8f7;
+  --color-stone-100: #f3f0ee;
+  --color-stone-200: #e5e1de;
+  --color-stone-300: #d2ccc8;
+  --color-stone-400: #bfb9b5;
+  --color-stone-500: #8f8884;
+  --color-stone-600: #6b6461;
+  --color-stone-700: #4f4946;
+  --color-stone-800: #33302e;
+  --color-stone-900: #1f1d1c;
+
+  --color-accent: var(--color-copper-700);
+}
+
+.dark {
+  --color-accent: #f0a878;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    @apply bg-stone-50 text-stone-800 dark:bg-teal-950 dark:text-stone-200;
+  }
+
+  ::selection {
+    @apply bg-copper-200 text-stone-900 dark:bg-copper-700 dark:text-white;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-copper-500;
+  }
+
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+}
+
+@layer components {
+  .content {
+    @apply prose prose-stone max-w-none dark:prose-invert;
+    --tw-prose-links: var(--color-copper-600);
+    --tw-prose-headings: var(--color-teal-800);
+    --tw-prose-bullets: var(--color-copper-400);
+    --tw-prose-quote-borders: var(--color-copper-300);
+    --tw-prose-code: var(--color-teal-800);
+  }
+  .dark .content {
+    --tw-prose-links: var(--color-accent);
+    --tw-prose-headings: var(--color-stone-100);
+    --tw-prose-bullets: var(--color-copper-400);
+    --tw-prose-quote-borders: var(--color-copper-700);
+    --tw-prose-code: var(--color-teal-100);
+  }
+
+  .content p,
+  .justified,
+  .search-result p {
+    text-align: justify;
+  }
+
+  .content a {
+    @apply decoration-copper-300 underline-offset-2 transition-colors hover:text-copper-700 dark:decoration-copper-700 dark:hover:text-copper-200;
+  }
+
+  .content :where(:not(pre) > code) {
+    @apply rounded bg-teal-50 px-1.5 py-0.5 font-normal dark:bg-teal-900;
+  }
+  .content :where(:not(pre) > code)::before,
+  .content :where(:not(pre) > code)::after {
+    content: none;
+  }
+
+  .content img {
+    @apply mx-auto rounded-lg border border-stone-200 dark:border-teal-800;
+  }
+
+  .content .highlight {
+    @apply relative my-6 overflow-hidden rounded-lg text-sm;
+  }
+  .content .highlight pre {
+    @apply my-0 rounded-lg;
+  }
+  .content .highlight table {
+    @apply my-0 w-full table-fixed border-0;
+  }
+  .content .highlight :where(td, tr) {
+    @apply border-0 p-0 align-top;
+  }
+  .content .highlight td:first-child {
+    @apply w-12;
+  }
+  .content .highlight td:first-child pre {
+    @apply rounded-r-none pr-2 text-right select-none opacity-60;
+  }
+  .content .highlight td:last-child pre {
+    @apply overflow-x-auto rounded-l-none pl-2;
+  }
+
+  .copy-code {
+    @apply absolute top-2 right-2 rounded-md bg-white/10 px-2 py-1 font-sans text-xs text-stone-200 opacity-0 transition-opacity hover:bg-white/20 focus:opacity-100;
+  }
+  .highlight:hover .copy-code {
+    @apply opacity-100;
+  }
+
+  .heading-anchor {
+    @apply ml-2 font-normal text-stone-400 no-underline opacity-0 transition-opacity dark:text-stone-500;
+  }
+  .heading-anchor::before {
+    content: "#";
+  }
+  :hover > .heading-anchor,
+  .heading-anchor:focus {
+    @apply opacity-100;
+  }
+
+  .icon-sun {
+    @apply hidden;
+  }
+  .dark .icon-sun {
+    @apply block;
+  }
+  .dark .icon-moon {
+    @apply hidden;
+  }
+
+  .search-result {
+    @apply block rounded-lg border border-stone-200 bg-white px-5 py-4 transition hover:border-copper-300 hover:shadow-sm dark:border-teal-800 dark:bg-teal-900/40 dark:hover:border-copper-700;
+  }
+  .search-result h3 {
+    @apply font-semibold text-teal-800 dark:text-stone-100;
+  }
+  .search-result p {
+    @apply mt-1 line-clamp-2 text-sm text-stone-600 dark:text-stone-400;
+  }
+  .search-result mark {
+    @apply rounded-sm bg-copper-100 text-inherit dark:bg-copper-900;
+  }
+}

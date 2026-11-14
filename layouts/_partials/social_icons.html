@@ -1,0 +1,13 @@
+{{- $compact := and (reflect.IsMap .) (index . "compact") }}
+{{- with site.Params.socialIcons }}
+<ul class="flex flex-wrap items-center {{ if $compact }}-mx-2 gap-1{{ else }}gap-2{{ end }}">
+  {{- range . }}
+  <li>
+    <a href="{{ trim .url " " | safeURL }}" target="_blank" rel="noopener noreferrer me" title="{{ .title | default (.name | title) }}" aria-label="{{ .title | default (.name | title) }}"
+       class="{{ if $compact }}inline-flex rounded-full p-2 text-stone-500 transition-colors hover:bg-teal-800/5 hover:text-accent dark:text-teal-100/70 dark:hover:bg-accent/10 dark:hover:text-accent{{ else }}inline-flex rounded-md border border-stone-200 p-2 text-stone-600 transition-colors hover:border-copper-300 hover:text-copper-600 dark:border-teal-800 dark:text-stone-300 dark:hover:border-copper-700 dark:hover:text-copper-300{{ end }}">
+      {{ partial "icon.html" (dict "name" .name "class" (cond $compact "size-4" "size-5")) }}
+    </a>
+  </li>
+  {{- end }}
+</ul>
+{{- end }}

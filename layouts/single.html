@@ -1,0 +1,44 @@
+{{- define "main" }}
+<article>
+  <header class="mb-10">
+    {{- partial "breadcrumbs.html" . }}
+    <h1 class="text-3xl font-semibold tracking-tight text-balance text-teal-800 sm:text-4xl dark:text-stone-100">
+      {{- if .Draft }}<span class="mr-3 rounded bg-copper-100 px-2 py-0.5 align-middle text-sm font-medium text-copper-700 dark:bg-copper-900 dark:text-copper-200">{{ i18n "draft" | default "Draft" }}</span>{{ end }}
+      {{- .Title -}}
+    </h1>
+    {{- with .Description }}
+    <p class="justified mt-3 text-lg text-stone-600 dark:text-stone-300">{{ . }}</p>
+    {{- end }}
+    {{- if not .Params.hideMeta }}
+    <div class="mt-4 text-sm text-stone-500 dark:text-stone-400">{{ partial "post_meta.html" . }}</div>
+    {{- end }}
+  </header>
+
+  {{- with .Params.cover.image }}
+  <figure class="mb-10">
+    <img src="{{ . | absURL }}" alt="{{ $.Params.cover.alt | default $.Title }}" class="w-full rounded-xl border border-stone-200 dark:border-teal-800">
+    {{- with $.Params.cover.caption }}<figcaption class="mt-2 text-center text-sm text-stone-500">{{ . | markdownify }}</figcaption>{{ end }}
+  </figure>
+  {{- end }}
+
+  {{- partial "toc.html" . }}
+
+  <div class="content">
+    {{ .Content }}
+  </div>
+
+  {{- with .GetTerms "tags" }}
+  <ul class="mt-12 flex flex-wrap gap-2" aria-label="{{ i18n "tags" | default "Tags" }}">
+    {{- range . }}
+    <li><a href="{{ .RelPermalink }}" class="inline-block rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-xs font-medium text-teal-700 transition-colors hover:border-copper-300 hover:bg-copper-50 hover:text-copper-700 dark:border-teal-800 dark:bg-teal-900/50 dark:text-teal-200 dark:hover:border-copper-700 dark:hover:bg-copper-900/40 dark:hover:text-copper-200">#{{ .LinkTitle }}</a></li>
+    {{- end }}
+  </ul>
+  {{- end }}
+
+  {{- partial "post_nav.html" . }}
+
+  {{- if (.Params.comments | default site.Params.comments) }}
+  <section class="mt-12 border-t border-stone-200 pt-8 dark:border-teal-800">{{ partial "comments.html" . }}</section>
+  {{- end }}
+</article>
+{{- end }}

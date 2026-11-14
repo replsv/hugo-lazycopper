@@ -1,0 +1,15 @@
+{{- define "main" }}
+<header class="mb-10">
+  <h1 class="text-3xl font-semibold tracking-tight text-teal-800 dark:text-stone-100">{{ .Title }}</h1>
+</header>
+<ul class="flex flex-wrap gap-2.5">
+  {{- range .Data.Terms.ByCount }}
+  <li>
+    <a href="{{ .Page.RelPermalink }}" class="inline-flex items-center gap-2 rounded-lg border border-stone-200 bg-white px-3.5 py-1.5 text-sm text-stone-700 transition-colors hover:border-copper-300 hover:text-copper-600 dark:border-teal-800 dark:bg-teal-900/30 dark:text-stone-200 dark:hover:border-copper-700 dark:hover:text-copper-300">
+      {{ .Page.LinkTitle }}
+      <span class="rounded-full bg-stone-100 px-1.5 text-xs text-stone-500 dark:bg-teal-900 dark:text-stone-400">{{ .Count }}</span>
+    </a>
+  </li>
+  {{- end }}
+</ul>
+{{- end }}

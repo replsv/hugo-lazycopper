@@ -1,0 +1,27 @@
+{{- with site.Params.homeInfoParams }}
+<section class="mb-12" aria-labelledby="profile-title">
+  <div class="flex flex-col gap-8 sm:flex-row sm:items-start">
+    {{- with .ProfilePic }}
+    <img src="{{ . | absURL }}" alt="{{ site.Params.author | default site.Title }}" width="144" height="144"
+         class="size-28 shrink-0 rounded-full object-cover ring-4 ring-white shadow-sm sm:size-36 dark:ring-teal-900">
+    {{- end }}
+    <div class="min-w-0 flex-1">
+      <h1 id="profile-title" class="text-3xl font-semibold tracking-tight text-teal-800 sm:text-4xl dark:text-stone-100">
+        {{- .Title | default site.Title | markdownify -}}
+      </h1>
+      {{- with .Subtitle }}
+      <p class="mt-1 text-copper-600 dark:text-copper-300">{{ . | markdownify }}</p>
+      {{- end }}
+      <div class="content mt-5 prose-li:my-0.5 prose-ul:mt-3 prose-p:my-3">
+        {{- .Content | markdownify }}
+      </div>
+      <div class="mt-6">{{ partial "social_icons.html" . }}</div>
+    </div>
+  </div>
+  <div class="mt-12 flex items-center gap-3" aria-hidden="true">
+    <span class="h-px flex-1 bg-linear-to-r from-transparent to-stone-300 dark:to-teal-700"></span>
+    <span class="size-1.5 rotate-45 bg-copper-400 dark:bg-accent"></span>
+    <span class="h-px flex-1 bg-linear-to-l from-transparent to-stone-300 dark:to-teal-700"></span>
+  </div>
+</section>
+{{- end }}

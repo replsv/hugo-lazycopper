@@ -1,0 +1,15 @@
+{{- if gt .TotalPages 1 }}
+<nav class="mt-10 flex items-center justify-between text-sm" aria-label="{{ i18n "pagination" | default "Pagination" }}">
+  {{- with .Prev }}
+  <a href="{{ .URL }}" rel="prev" class="inline-flex items-center gap-2 rounded-md border border-stone-200 px-4 py-2 text-stone-700 transition-colors hover:border-copper-300 hover:text-copper-600 dark:border-teal-800 dark:text-stone-200 dark:hover:border-copper-700 dark:hover:text-copper-300">
+    {{ partial "icon.html" (dict "name" "arrow-left" "class" "size-4") }}{{ i18n "prev_page" | default "Newer" }}
+  </a>
+  {{- else }}<span></span>{{ end }}
+  <span class="text-stone-500 dark:text-stone-400">{{ .PageNumber }} / {{ .TotalPages }}</span>
+  {{- with .Next }}
+  <a href="{{ .URL }}" rel="next" class="inline-flex items-center gap-2 rounded-md border border-stone-200 px-4 py-2 text-stone-700 transition-colors hover:border-copper-300 hover:text-copper-600 dark:border-teal-800 dark:text-stone-200 dark:hover:border-copper-700 dark:hover:text-copper-300">
+    {{ i18n "next_page" | default "Older" }}{{ partial "icon.html" (dict "name" "arrow-right" "class" "size-4") }}
+  </a>
+  {{- else }}<span></span>{{ end }}
+</nav>
+{{- end }}

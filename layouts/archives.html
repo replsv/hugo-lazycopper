@@ -1,0 +1,26 @@
+{{- define "main" }}
+{{- $pages := where site.RegularPages "Section" "in" site.Params.mainSections }}
+<header class="mb-10">
+  <h1 class="text-3xl font-semibold tracking-tight text-teal-800 dark:text-stone-100">{{ .Title }}</h1>
+  <p class="mt-2 text-sm text-stone-500 dark:text-stone-400">{{ len $pages }} {{ i18n "posts" | default "posts" | lower }}</p>
+</header>
+<div class="space-y-12">
+  {{- range $pages.GroupByPublishDate "2006" }}
+  <section aria-labelledby="year-{{ .Key }}">
+    <h2 id="year-{{ .Key }}" class="mb-4 flex items-baseline gap-3 text-2xl font-semibold text-teal-800 dark:text-stone-100">
+      {{ .Key }}<span class="text-sm font-normal text-stone-400">{{ len .Pages }}</span>
+    </h2>
+    <ul class="divide-y divide-stone-200 border-l-2 border-copper-200 dark:divide-teal-800/60 dark:border-copper-800">
+      {{- range .Pages }}
+      <li>
+        <a href="{{ .RelPermalink }}" class="group flex flex-col gap-1 py-3 pl-5 sm:flex-row sm:items-baseline sm:gap-6">
+          <time datetime="{{ .Date.Format "2006-01-02" }}" class="w-20 shrink-0 text-sm text-stone-500 tabular-nums dark:text-stone-400">{{ .Date | time.Format "Jan 02" }}</time>
+          <span class="text-stone-800 group-hover:text-copper-600 dark:text-stone-200 dark:group-hover:text-copper-300">{{ .Title }}</span>
+        </a>
+      </li>
+      {{- end }}
+    </ul>
+  </section>
+  {{- end }}
+</div>
+{{- end }}

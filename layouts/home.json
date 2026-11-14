@@ -1,0 +1,14 @@
+{{- $index := slice }}
+{{- range where site.RegularPages "Section" "in" site.Params.mainSections }}
+  {{- if not .Params.searchHidden }}
+    {{- $index = $index | append (dict
+      "title" (.Title | plainify)
+      "permalink" .RelPermalink
+      "summary" (or .Description (.Summary | plainify | htmlUnescape | truncate 200))
+      "content" (.Plain | htmlUnescape)
+      "date" (.Date.Format "2006-01-02")
+      "tags" (.Params.tags | default slice)
+    ) }}
+  {{- end }}
+{{- end }}
+{{- $index | jsonify }}

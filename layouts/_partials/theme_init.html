@@ -1,0 +1,25 @@
+{{- $default := site.Params.defaultTheme | default "auto" }}
+{{- if site.Params.disableThemeToggle }}
+<script>
+  (function () {
+    var d = {{ $default }};
+    if (d === "dark" || (d === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      document.documentElement.classList.add("dark");
+    }
+  })();
+</script>
+{{- else }}
+<script>
+  (function () {
+    var pref = null;
+    try { pref = localStorage.getItem("pref-theme"); } catch (e) {}
+    var d = pref || {{ $default }};
+    if (d === "dark" || (d === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+      document.documentElement.classList.add("dark");
+    }
+  })();
+</script>
+{{- end }}
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#faf8f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1f25" media="(prefers-color-scheme: dark)">

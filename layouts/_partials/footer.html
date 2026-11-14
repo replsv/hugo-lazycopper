@@ -1,0 +1,30 @@
+<footer class="mt-8 bg-stone-100/70 dark:bg-black/20">
+  <div class="h-px bg-linear-to-r from-transparent via-copper-400/70 to-transparent dark:via-accent/50" aria-hidden="true"></div>
+  <div class="mx-auto flex max-w-3xl flex-col gap-4 px-4 py-6 text-xs text-stone-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 dark:text-teal-100/60">
+    <div class="space-y-1">
+      <p class="[&_a]:text-teal-800 [&_a]:underline [&_a]:decoration-copper-400/60 [&_a]:underline-offset-4 [&_a]:transition-colors [&_a:hover]:text-accent [&_a:hover]:decoration-current dark:[&_a]:text-stone-200 dark:[&_a]:decoration-accent/40">
+        {{- with site.Copyright }}{{ . | markdownify }}{{ else }}&copy; {{ now.Year }} {{ site.Title }}{{ end }}
+        {{- with site.Params.footer.text }}<span class="mx-2 text-copper-400 dark:text-accent/60" aria-hidden="true">&middot;</span>{{ . | markdownify }}{{ end -}}
+      </p>
+      {{- with site.Params.footer.note }}
+      <p class="italic">{{ . | markdownify }}</p>
+      {{- end }}
+    </div>
+    {{ partial "social_icons.html" (dict "compact" true) }}
+  </div>
+</footer>
+
+{{- if not site.Params.disableScrollToTop }}
+<a href="#top" id="top-link" aria-label="{{ i18n "go_to_top" | default "Go to top" }}" title="{{ i18n "go_to_top" | default "Go to top" }} (Alt + G)" accesskey="g"
+   class="invisible fixed right-5 bottom-5 z-40 rounded-full border border-stone-200 bg-white/90 p-2.5 text-stone-500 opacity-0 shadow-sm backdrop-blur transition-all hover:border-copper-300 hover:text-accent dark:border-teal-700 dark:bg-teal-900/90 dark:text-teal-100/80 dark:hover:border-accent/50 dark:hover:text-accent">
+  {{ partial "icon.html" (dict "name" "arrow-up" "class" "size-4") }}
+</a>
+{{- end }}
+
+{{- $js := resources.Get "js/main.js" | js.Build (dict "minify" (not hugo.IsDevelopment)) }}
+{{- if hugo.IsProduction }}{{ $js = $js | fingerprint }}{{ end }}
+<script src="{{ $js.RelPermalink }}" defer
+  data-copy="{{ i18n "code_copy" | default "copy" }}"
+  data-copied="{{ i18n "code_copied" | default "copied!" }}"
+  {{- if and .IsPage (not site.Params.disableCodeCopy) (ne site.Params.ShowCodeCopyButtons false) }} data-code-copy{{ end }}></script>
+{{- partial "extend_footer.html" . }}

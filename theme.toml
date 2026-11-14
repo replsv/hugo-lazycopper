@@ -1,0 +1,10 @@
+name = "LazyCopper"
+license = "MIT"
+description = "A simple, professional personal blog / profile theme built with Tailwind CSS v4."
+tags = ["blog", "personal", "portfolio", "tailwind", "dark-mode", "minimal", "responsive"]
+features = ["dark mode", "search", "archive", "SEO", "JSON-LD", "Google Analytics 4", "table of contents"]
+min_version = "0.146.0"
+
+[author]
+  name = "Gabriel Martin"
+  homepage = "https://lazycoder.ro/"

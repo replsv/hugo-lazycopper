@@ -1,0 +1,24 @@
+{{- define "main" }}
+{{- $pages := where site.RegularPages "Section" "in" site.Params.mainSections }}
+{{- $pages = where $pages "Params.hiddenInHomeList" "!=" true }}
+{{- $paginator := .Paginate $pages }}
+
+{{- if eq $paginator.PageNumber 1 }}
+  {{- partial "profile.html" . }}
+  {{- with .Content }}
+  <div class="content mb-12">{{ . }}</div>
+  {{- end }}
+{{- end }}
+
+{{- with $paginator.Pages }}
+<section aria-labelledby="latest-posts">
+  <h2 id="latest-posts" class="mb-6 text-xs font-semibold tracking-widest text-stone-500 uppercase dark:text-stone-400">
+    {{- if eq $paginator.PageNumber 1 }}{{ i18n "latest_posts" | default "Latest posts" }}{{ else }}{{ i18n "posts" | default "Posts" }} &middot; {{ i18n "page" | default "page" }} {{ $paginator.PageNumber }}{{ end -}}
+  </h2>
+  <div class="space-y-4">
+    {{- range . }}{{ partial "post_card.html" . }}{{ end }}
+  </div>
+</section>
+{{- end }}
+{{- partial "pagination.html" $paginator }}
+{{- end }}

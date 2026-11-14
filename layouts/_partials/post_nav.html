@@ -1,0 +1,21 @@
+{{- if and site.Params.ShowPostNavLinks (in site.Params.mainSections .Section) }}
+  {{- $pages := where site.RegularPages "Section" .Section }}
+  {{- $newer := $pages.Next . }}
+  {{- $older := $pages.Prev . }}
+  {{- if or $newer $older }}
+<nav class="mt-12 grid gap-4 border-t border-stone-200 pt-8 sm:grid-cols-2 dark:border-teal-800" aria-label="{{ i18n "post_navigation" | default "Post navigation" }}">
+  {{- with $newer }}
+  <a href="{{ .RelPermalink }}" rel="prev" class="group rounded-lg border border-stone-200 p-4 transition hover:border-copper-300 dark:border-teal-800 dark:hover:border-copper-700">
+    <span class="text-xs tracking-wide text-stone-500 uppercase dark:text-stone-400">&larr; {{ i18n "newer_post" | default "Newer" }}</span>
+    <span class="mt-1 block font-medium text-teal-800 group-hover:text-copper-600 dark:text-stone-100 dark:group-hover:text-copper-300">{{ .Title }}</span>
+  </a>
+  {{- else }}<span class="hidden sm:block"></span>{{ end }}
+  {{- with $older }}
+  <a href="{{ .RelPermalink }}" rel="next" class="group rounded-lg border border-stone-200 p-4 text-right transition hover:border-copper-300 dark:border-teal-800 dark:hover:border-copper-700">
+    <span class="text-xs tracking-wide text-stone-500 uppercase dark:text-stone-400">{{ i18n "older_post" | default "Older" }} &rarr;</span>
+    <span class="mt-1 block font-medium text-teal-800 group-hover:text-copper-600 dark:text-stone-100 dark:group-hover:text-copper-300">{{ .Title }}</span>
+  </a>
+  {{- end }}
+</nav>
+  {{- end }}
+{{- end }}

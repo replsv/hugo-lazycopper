@@ -1,0 +1,15 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{- partial "seo.html" . }}
+{{- partial "favicons.html" . }}
+{{- partial "theme_init.html" . }}
+{{- with (templates.Defer (dict "key" "global")) }}
+  {{- partial "css.html" . }}
+{{- end }}
+{{- range .AlternativeOutputFormats }}
+  {{- if or (eq .Name "RSS") (eq .Name "JSON") }}
+<link rel="alternate" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ site.Title }}">
+  {{- end }}
+{{- end }}
+{{- partial "analytics.html" . }}
+{{- partial "extend_head.html" . }}
