@@ -1,0 +1,82 @@
+baseURL = "https://example.org/"
+locale = "en-us"
+title = "Jane Doe"
+theme = "hugo-lazycopper"
+themesDir = "../.."
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[pagination]
+  pagerSize = 5
+
+[menus]
+  [[menus.main]]
+    name = "Archive"
+    url = "archive/"
+    weight = 10
+  [[menus.main]]
+    name = "Search"
+    url = "search/"
+    weight = 20
+    [menus.main.params]
+      accesskey = "/"
+  [[menus.main]]
+    name = "Tags"
+    url = "tags/"
+    weight = 30
+
+[params]
+  description = "Notes on software, systems and the occasional side project."
+  author = "Jane Doe"
+  mainSections = ["posts"]
+  ShowReadingTime = true
+  ShowToc = true
+
+  [params.footer]
+    text = "Built with [Hugo](https://gohugo.io) and [LazyCopper](https://github.com/replsv/hugo-lazycopper)"
+
+  [params.homeInfoParams]
+    Title = "Hi, I'm Jane"
+    Subtitle = "Software engineer"
+    ProfilePic = "avatar.svg"
+    Content = """
+I build backend systems and write about what I learn along the way.
+
+- **languages**: Go, TypeScript, Python
+- **interests**: distributed systems, databases, developer tooling
+"""
+
+  [[params.socialIcons]]
+    name = "github"
+    url = "https://github.com/"
+  [[params.socialIcons]]
+    name = "mastodon"
+    url = "https://mastodon.social/"
+  [[params.socialIcons]]
+    name = "rss"
+    url = "/index.xml"
+
+[markup.highlight]
+  style = "monokai"
+
+# Required by LazyCopper: let Hugo run the Tailwind CLI and feed it the
+# class names used in your templates.
+[security.exec]
+  allow = ['^(dart-)?sass$', '^go$', '^git$', '^node$', '^postcss$', '^tailwindcss$']
+
+[build.buildStats]
+  enable = true
+
+[[build.cachebusters]]
+  source = 'assets/notwatching/hugo_stats\.json'
+  target = 'css'
+
+[[module.mounts]]
+  source = 'assets'
+  target = 'assets'
+
+[[module.mounts]]
+  source = 'hugo_stats.json'
+  target = 'assets/notwatching/hugo_stats.json'
+  disableWatch = true
