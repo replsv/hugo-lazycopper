@@ -1,10 +1,12 @@
 name = "LazyCopper"
 license = "MIT"
-description = "A simple, professional personal blog / profile theme built with Tailwind CSS v4."
-tags = ["blog", "personal", "portfolio", "tailwind", "dark-mode", "minimal", "responsive"]
-features = ["dark mode", "search", "archive", "SEO", "JSON-LD", "Google Analytics 4", "table of contents"]
+licenselink = "https://github.com/replsv/hugo-lazycopper/blob/master/LICENSE"
+description = "A clean personal blog and profile theme built with Tailwind CSS v4, with dark mode, search and an archive."
+homepage = "https://github.com/replsv/hugo-lazycopper"
+tags = ["blog", "personal", "portfolio", "tailwind", "dark-mode", "minimal", "responsive", "search"]
+features = ["dark mode", "client-side search", "archive", "table of contents", "code copy buttons", "SEO", "JSON-LD", "Google Analytics 4"]
 min_version = "0.146.0"
 
 [author]
-  name = "Gabriel Martin"
-  homepage = "https://lazycoder.ro/"
+  name = "Gabriel M."
+  homepage = "https://github.com/replsv"
