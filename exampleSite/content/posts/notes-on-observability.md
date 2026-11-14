@@ -3,6 +3,7 @@ title: "Notes on observability"
 date: 2025-12-11
 description: "Logs, metrics and traces, and what each one is good at."
 tags: ['observability', 'reliability']
+comments: true
 ---
 
 The three signals answer different questions, and using the wrong one for the job is the usual source of frustration.

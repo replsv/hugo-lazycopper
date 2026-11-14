@@ -5,7 +5,7 @@ description = "A clean personal blog and profile theme built with Tailwind CSS v
 homepage = "https://github.com/replsv/hugo-lazycopper"
 tags = ["blog", "personal", "portfolio", "tailwind", "dark-mode", "minimal", "responsive", "search"]
 features = ["dark mode", "client-side search", "archive", "table of contents", "code copy buttons", "SEO", "JSON-LD", "Google Analytics 4"]
-min_version = "0.146.0"
+min_version = "0.158.0"
 
 [author]
   name = "Gabriel M."

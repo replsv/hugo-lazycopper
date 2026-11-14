@@ -26,7 +26,7 @@ A clean personal blog and profile theme for [Hugo](https://gohugo.io), styled wi
 
 ## Requirements
 
-- [Hugo](https://gohugo.io/installation/) 0.146 or newer
+- [Hugo](https://gohugo.io/installation/) 0.158 or newer
 - [Node.js](https://nodejs.org) 20 or newer, which Hugo uses to run Tailwind
 
 ## Quick start

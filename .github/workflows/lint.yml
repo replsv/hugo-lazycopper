@@ -1,0 +1,63 @@
+name: Lint
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build example site (Hugo ${{ matrix.hugo }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        hugo: [minimum, latest]
+    steps:
+      # exampleSite loads the theme from ../.. by folder name
+      - uses: actions/checkout@v5
+        with:
+          path: hugo-lazycopper
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Install Hugo
+        working-directory: hugo-lazycopper
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ matrix.hugo }}" = minimum ]; then
+            version=$(sed -n 's/^min_version = "\(.*\)"/\1/p' theme.toml)
+          else
+            version=$(gh release view --repo gohugoio/hugo --json tagName --jq .tagName | sed 's/^v//')
+          fi
+          curl -sSfL "https://github.com/gohugoio/hugo/releases/download/v${version}/hugo_${version}_linux-amd64.tar.gz" \
+            | tar -xz -C "$RUNNER_TEMP" hugo
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      - name: Install Tailwind
+        working-directory: hugo-lazycopper/exampleSite
+        run: npm install --no-audit --no-fund
+
+      - name: Build
+        working-directory: hugo-lazycopper/exampleSite
+        run: |
+          hugo version
+          hugo --panicOnWarning --printPathWarnings --printI18nWarnings --printUnusedTemplates
+
+  scripts:
+    name: Check JavaScript syntax
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - run: for f in assets/js/*.js; do node --check "$f"; done
