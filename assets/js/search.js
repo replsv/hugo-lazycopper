@@ -52,7 +52,7 @@ async function init() {
       _content: item.content.toLowerCase(),
     }));
   } catch (e) {
-    status.textContent = "Search index could not be loaded.";
+    status.textContent = results.dataset.error;
     return;
   }
 

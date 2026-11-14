@@ -26,5 +26,5 @@
 <script src="{{ $js.RelPermalink }}" defer
   data-copy="{{ i18n "code_copy" | default "copy" }}"
   data-copied="{{ i18n "code_copied" | default "copied!" }}"
-  {{- if and .IsPage (not site.Params.disableCodeCopy) (ne site.Params.ShowCodeCopyButtons false) }} data-code-copy{{ end }}></script>
+  {{- if and .IsPage (ne site.Params.ShowCodeCopyButtons false) }} data-code-copy{{ end }}></script>
 {{- partial "extend_footer.html" . }}

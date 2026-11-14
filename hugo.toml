@@ -8,9 +8,6 @@
   TocOpen = false
   DateFormat = ":date_long"
 
-[outputs]
-  home = ["HTML", "RSS", "JSON"]
-
 [module]
   [module.hugoVersion]
     extended = false

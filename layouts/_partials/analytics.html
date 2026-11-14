@@ -1,8 +1,7 @@
-{{- if hugo.IsProduction }}
-  {{- $privacy := site.Config.Privacy.GoogleAnalytics }}
+{{- $privacy := site.Config.Privacy.GoogleAnalytics }}
+{{- if and hugo.IsProduction (not $privacy.Disable) }}
   {{- with site.Config.Services.GoogleAnalytics.ID }}
-    {{- if $privacy.Disable }}
-    {{- else if hasPrefix . "G-" }}
+    {{- if hasPrefix . "G-" }}
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
 <script>
   {{- if $privacy.RespectDoNotTrack }}
