@@ -1,6 +1,6 @@
 <footer class="mt-8 bg-stone-100/70 dark:bg-black/20">
   <div class="h-px bg-linear-to-r from-transparent via-copper-400/70 to-transparent dark:via-accent/50" aria-hidden="true"></div>
-  <div class="mx-auto flex max-w-3xl flex-col gap-4 px-4 py-6 text-xs text-stone-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 dark:text-teal-100/60">
+  <div class="mx-auto flex {{ cond (eq (partial "width.html" .) "wide") "max-w-5xl" "max-w-3xl" }} flex-col gap-4 px-4 py-6 text-xs text-stone-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 dark:text-teal-100/60">
     <div class="space-y-1">
       <p class="[&_a]:text-teal-800 [&_a]:underline [&_a]:decoration-copper-400/60 [&_a]:underline-offset-4 [&_a]:transition-colors [&_a:hover]:text-accent [&_a:hover]:decoration-current dark:[&_a]:text-stone-200 dark:[&_a]:decoration-accent/40">
         {{- with site.Copyright }}{{ . | markdownify }}{{ else }}&copy; {{ now.Year }} {{ site.Title }}{{ end }}

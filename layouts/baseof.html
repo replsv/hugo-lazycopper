@@ -6,7 +6,7 @@
 <body class="flex min-h-screen flex-col font-sans" id="top">
   <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-copper-600 focus:px-3 focus:py-2 focus:text-white">{{ i18n "skip_to_content" | default "Skip to content" }}</a>
   {{- partial "header.html" . }}
-  <main id="main" class="mx-auto w-full max-w-3xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
+  <main id="main" class="mx-auto w-full {{ cond (eq (partial "width.html" .) "wide") "max-w-5xl" "max-w-3xl" }} flex-1 px-4 py-10 sm:px-6 sm:py-14">
     {{- block "main" . }}{{ end }}
   </main>
   {{- partial "footer.html" . }}

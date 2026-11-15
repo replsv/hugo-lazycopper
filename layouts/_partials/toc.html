@@ -1,11 +1,28 @@
-{{- $show := .Params.ShowToc | default site.Params.ShowToc }}
-{{- if and $show (gt .WordCount 400) }}
-  {{- with .TableOfContents }}
+{{- /* Renders the table of contents. With the wide layout, (dict "page" . "variant" "sidebar") gives the sticky
+       desktop sidebar and anything else the collapsible block shown on small screens. With the narrow layout
+       there is no sidebar and the collapsible block is shown on every screen size. */}}
+{{- $page := .page }}
+{{- $wide := eq (partial "width.html" $page) "wide" }}
+{{- $show := site.Params.ShowToc }}
+{{- if isset $page.Params "showtoc" }}{{ $show = $page.Params.ShowToc }}{{ end }}
+{{- if and $show (gt $page.WordCount 400) }}
+  {{- with $page.TableOfContents }}
     {{- if ne . `<nav id="TableOfContents"></nav>` }}
-<details class="mb-10 rounded-lg border border-stone-200 bg-white px-5 py-3 text-sm dark:border-teal-800 dark:bg-teal-900/30"{{ if ($.Params.TocOpen | default site.Params.TocOpen) }} open{{ end }}>
+      {{- if eq $.variant "sidebar" }}
+        {{- if $wide }}
+<aside class="hidden lg:block" aria-label="{{ i18n "toc" | default "Table of contents" }}">
+  <div id="toc-sidebar" class="toc-sidebar sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto pb-4 text-sm">
+    <p class="mb-3 text-xs font-semibold tracking-wider text-teal-800 uppercase dark:text-stone-100">{{ i18n "toc" | default "Table of contents" }}</p>
+    {{ . }}
+  </div>
+</aside>
+        {{- end }}
+      {{- else }}
+<details class="mb-10 rounded-lg border border-stone-200 bg-white px-5 py-3 text-sm{{ if $wide }} lg:hidden{{ end }} dark:border-teal-800 dark:bg-teal-900/30"{{ if ($page.Params.TocOpen | default site.Params.TocOpen) }} open{{ end }}>
   <summary class="cursor-pointer font-medium text-teal-800 select-none dark:text-stone-100">{{ i18n "toc" | default "Table of contents" }}</summary>
   <div class="mt-3 text-stone-600 dark:text-stone-300 [&_a:hover]:text-copper-600 dark:[&_a:hover]:text-copper-300 [&_li]:my-1 [&_ul_ul]:ml-4 [&_ul_ul]:mt-1">{{ . }}</div>
 </details>
+      {{- end }}
     {{- end }}
   {{- end }}
 {{- end }}

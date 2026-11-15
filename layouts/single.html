@@ -1,5 +1,7 @@
 {{- define "main" }}
-<article>
+{{- $sidebar := partial "toc.html" (dict "page" . "variant" "sidebar") | strings.TrimSpace | safeHTML }}
+<div class="{{ if $sidebar }}lg:grid lg:grid-cols-[minmax(0,1fr)_14rem] lg:gap-12{{ else }}mx-auto max-w-3xl{{ end }}">
+<article class="min-w-0">
   <header class="mb-10">
     {{- partial "breadcrumbs.html" . }}
     <h1 class="text-3xl font-semibold tracking-tight text-balance text-teal-800 sm:text-4xl dark:text-stone-100">
@@ -21,7 +23,7 @@
   </figure>
   {{- end }}
 
-  {{- partial "toc.html" . }}
+  {{- partial "toc.html" (dict "page" .) }}
 
   <div class="content">
     {{ .Content }}
@@ -41,4 +43,6 @@
   <section class="mt-12 border-t border-stone-200 pt-8 dark:border-teal-800">{{ partial "comments.html" . }}</section>
   {{- end }}
 </article>
+{{- $sidebar }}
+</div>
 {{- end }}

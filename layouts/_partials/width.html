@@ -1,0 +1,3 @@
+{{- /* Returns "wide" or "narrow": the page's `width` front matter, falling back to the site's `width` param. */}}
+{{- $width := .Params.width | default site.Params.width | default "narrow" }}
+{{- return (cond (eq $width "wide") "wide" "narrow") }}

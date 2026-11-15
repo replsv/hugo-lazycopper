@@ -10,16 +10,32 @@ A clean personal blog and profile theme for [Hugo](https://gohugo.io), styled wi
 - Light and dark mode, following the system setting by default, with a toggle
 - Client-side search with no external service
 - Archive grouped by year, tag pages, breadcrumbs and previous/next post links
-- Table of contents, heading anchors and copy buttons on code blocks
+- Narrow or wide layout; the wide one shows the table of contents in a sticky sidebar that highlights the current section
+- Reading progress bar under the navigation on posts
+- Heading anchors and copy buttons on code blocks
 - Open Graph, Twitter cards, JSON-LD and Google Analytics 4
 - No JavaScript framework and no web fonts: the CSS is built from the classes your site actually uses
 
 ## Screenshots
 
+### Narrow layout (default)
+
 | Light | Dark |
 | --- | --- |
-| ![Home page, light](images/home-light.png) | ![Home page, dark](images/home-dark.png) |
-| ![Post, light](images/post-light.png) | ![Post, dark](images/post-dark.png) |
+| ![Home page, narrow, light](images/home-light.png) | ![Home page, narrow, dark](images/home-dark.png) |
+| ![Post, narrow, light](images/post-light.png) | ![Post, narrow, dark](images/post-dark.png) |
+
+### Wide layout (`width = "wide"`)
+
+| Light | Dark |
+| --- | --- |
+| ![Home page, wide, light](images/home-wide-light.png) | ![Home page, wide, dark](images/home-wide-dark.png) |
+| ![Post with the table of contents sidebar, light](images/post-wide-light.png) | ![Post with the table of contents sidebar, dark](images/post-wide-dark.png) |
+
+### Archive, search and mobile
+
+| Archive | Search |
+| --- | --- |
 | ![Archive](images/archive.png) | ![Search](images/search.png) |
 
 <p align="center"><img src="images/mobile.png" alt="Home page on a phone" width="300"></p>
@@ -145,8 +161,9 @@ All of these go under `[params]` in `hugo.toml`, and all are optional.
 | `ShowBreadCrumbs` | `true` | Show breadcrumbs above titles |
 | `ShowPostNavLinks` | `true` | Show links to the previous and next post |
 | `ShowCodeCopyButtons` | `true` | Add a copy button to code blocks |
-| `ShowToc` | `false` | Show a table of contents on posts longer than 400 words |
-| `TocOpen` | `false` | Expand the table of contents by default |
+| `width` | `"narrow"` | `"narrow"` for a single reading column, `"wide"` for a wider page with the table of contents in a sidebar next to posts |
+| `ShowToc` | `false` | Show a table of contents on posts longer than 400 words: a sidebar on large screens with the wide layout, a collapsible block otherwise |
+| `TocOpen` | `false` | Expand the collapsible table of contents by default |
 | `comments` | `false` | Show comments under posts (see [Customizing](#customizing)) |
 | `label.text` | site title | Text next to the logo in the header |
 | `label.monogram` | initials | Letters in the logo badge |
@@ -208,6 +225,7 @@ cover:
   image: "images/cover.png"
   alt: "Cover image"
   caption: "Optional caption"
+width: wide             # override the site layout width for this page
 ShowToc: true           # override the site setting for this post
 TocOpen: true
 hideMeta: true          # hide the date, reading time and author
