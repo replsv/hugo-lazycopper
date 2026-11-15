@@ -1,6 +1,6 @@
 <header id="site-header" class="sticky top-0 z-40 bg-stone-50/80 backdrop-blur-md transition-shadow data-scrolled:shadow-[0_1px_0_var(--color-stone-200),0_8px_24px_-12px_rgb(0_0_0/0.12)] dark:bg-teal-950/80 dark:data-scrolled:shadow-[0_1px_0_var(--color-teal-800),0_8px_24px_-12px_rgb(0_0_0/0.6)]">
-  <div class="h-0.5 bg-linear-to-r from-teal-700 via-copper-500 to-teal-700 dark:from-teal-500/40 dark:via-accent dark:to-teal-500/40" aria-hidden="true"></div>
-  <nav class="mx-auto flex max-w-3xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3.5 sm:px-6" aria-label="Main">
+  <div class="h-0.5 bg-copper-600 dark:bg-accent" aria-hidden="true"></div>
+  <nav class="mx-auto flex {{ cond (eq (partial "width.html" .) "wide") "max-w-5xl" "max-w-3xl" }} flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3.5 sm:px-6" aria-label="Main">
     <a href="{{ site.Home.RelPermalink }}" accesskey="h" title="{{ site.Title }} (Alt + H)" class="group flex items-center gap-2.5">
       {{- partial "monogram.html" . }}
       <span class="font-semibold tracking-tight text-teal-800 transition-colors group-hover:text-accent dark:text-stone-50">
@@ -34,4 +34,9 @@
       {{- end }}
     </div>
   </nav>
+  {{- if and .IsPage (in site.Params.mainSections .Section) }}
+  <div class="h-0.5 bg-stone-200 dark:bg-teal-900" aria-hidden="true">
+    <div id="reading-progress" class="h-full origin-left scale-x-0 bg-copper-600 dark:bg-accent"></div>
+  </div>
+  {{- end }}
 </header>

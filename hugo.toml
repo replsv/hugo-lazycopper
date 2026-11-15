@@ -5,6 +5,7 @@
   ShowCodeCopyButtons = true
   ShowReadingTime = false
   ShowToc = false
+  width = "narrow"
   TocOpen = false
   DateFormat = ":date_long"
 

@@ -162,6 +162,19 @@
     @apply hidden;
   }
 
+  .toc-sidebar ul {
+    @apply border-l border-stone-200 dark:border-teal-800;
+  }
+  .toc-sidebar ul ul {
+    @apply ml-3 border-l-0;
+  }
+  .toc-sidebar a {
+    @apply -ml-px block border-l-2 border-transparent py-1 pl-3 leading-snug text-stone-500 transition-colors hover:text-teal-900 dark:text-teal-100/60 dark:hover:text-stone-50;
+  }
+  .toc-sidebar a[aria-current] {
+    @apply border-copper-600 font-medium text-copper-700 dark:border-accent dark:text-accent;
+  }
+
   .search-result {
     @apply block rounded-lg border border-stone-200 bg-white px-5 py-4 transition hover:border-copper-300 hover:shadow-sm dark:border-teal-800 dark:bg-teal-900/40 dark:hover:border-copper-700;
   }
